@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node src/index.js",
     "build": "tsc -p .",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts --exec ts-node"
   },
   "repository": "https://github.com/dohun0310/BYHS-App-Back-End",
   "author": "dohun0310 <dohun0310@naver.com>",
