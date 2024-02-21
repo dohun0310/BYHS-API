@@ -40,7 +40,7 @@ const getWeekRange = (date: Date) => {
 
 const fetchTimetable = async (res: Response, grade: string, classNumber: string, startDate: string, endDate: string) => {
   try {
-    const response = await axios.get(`${BASE_URL}/hisTimetable`, {
+    const response = await axios.get(`${BASE_URL}hisTimetable`, {
       params: {
         KEY: API_KEY,
         Type: "json",
@@ -53,22 +53,22 @@ const fetchTimetable = async (res: Response, grade: string, classNumber: string,
       }
     });
 
-    if (response.data && response.data.hisTimetable && response.data.hisTimetable[1].row) {
+    if (response.data.hisTimetable[1].row) {
       const groupedByDate = response.data.hisTimetable[1].row.reduce((acc: any, item: any) => {
         const year = item.ALL_TI_YMD.substring(0, 4);
         const month = item.ALL_TI_YMD.substring(4, 6);
         const day = item.ALL_TI_YMD.substring(6, 8);
         const api_date = new Date(`${year}-${month}-${day}`);
-        const dateFormatter = new Intl.DateTimeFormat('ko-KR', { month: 'long', day: 'numeric' });
+        const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric" });
         const formattedDate = dateFormatter.format(api_date);
 
         if (!acc[formattedDate]) {
-          acc[formattedDate] = { ALL_TI_YMD: formattedDate, details: [] };
+          acc[formattedDate] = { date: formattedDate, details: [] };
         }
         
         acc[formattedDate].details.push({
           PERIO: item.PERIO,
-          ITRT_CNTNT: item.ITRT_CNTNT
+          SUBJECT: item.ITRT_CNTNT
         });
 
         return acc;
