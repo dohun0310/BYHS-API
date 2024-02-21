@@ -54,14 +54,18 @@ const formatResponse = (res: Response, property: any, date: any, firstProperty: 
         "RESULT_MSG": "Success",
         "RESULT_DATA": {
           date: formattedDate,
-          [firstProperty]: {},
-          [secondProperty]: {},
+          [firstProperty]: [item[firstItem]],
+          [secondProperty]: [item[secondItem]],
         },
       };
+    } else {
+      if (!acc[formattedDate]["RESULT_DATA"][firstProperty].includes(item[firstItem])) {
+        acc[formattedDate]["RESULT_DATA"][firstProperty].push(item[firstItem]);
+      }
+      if (!acc[formattedDate]["RESULT_DATA"][secondProperty].includes(item[secondItem])) {
+        acc[formattedDate]["RESULT_DATA"][secondProperty].push(item[secondItem]);
+      }
     }
-
-    acc[formattedDate][firstProperty] = item[firstItem];
-    acc[formattedDate][secondProperty] = item[secondItem];
 
     return acc;
   }, {});
