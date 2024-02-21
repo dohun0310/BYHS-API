@@ -40,9 +40,9 @@ const getFriday = (date: Date) => {
   return new Date(monday.setDate(monday.getDate() + 4));
 };
 
-const Today = formattedDate(now);
-const Monday = formattedDate(getMonday(now));
-const Friday = formattedDate(getFriday(now));
+const today = formattedDate(now);
+const monday = formattedDate(getMonday(now));
+const friday = formattedDate(getFriday(now));
 
 app.get("/todaytimetable/:grade/:class", async (req: Request, res: Response) => {
   const { grade, class: classNumber } = req.params;
@@ -56,7 +56,7 @@ app.get("/todaytimetable/:grade/:class", async (req: Request, res: Response) => 
         SD_SCHUL_CODE: SCHOOL_CODE,
         GRADE: grade,
         CLASS_NM: classNumber,
-        ALL_TI_YMD: Today,
+        ALL_TI_YMD: today,
       }
     });
 
@@ -102,8 +102,8 @@ app.get("/weektimetable/:grade/:class", async (req: Request, res: Response) => {
         SD_SCHUL_CODE: SCHOOL_CODE,
         GRADE: grade,
         CLASS_NM: classNumber,
-        TI_FROM_YMD: Monday,
-        TI_TO_YMD: Friday,
+        TI_FROM_YMD: monday,
+        TI_TO_YMD: friday,
       }
     });
 
