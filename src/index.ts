@@ -88,7 +88,7 @@ app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) 
   }
 })
 
-app.get("/weektimetable/:grade/:class", async (req: Request, res: Response) => {
+app.get("/getWeekTimeTable/:grade/:class", async (req: Request, res: Response) => {
   const { grade, class: classNumber } = req.params;
 
   try {
