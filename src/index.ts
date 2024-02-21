@@ -69,6 +69,13 @@ const formatResponse = (res: Response, property: any, date: any, firstProperty: 
   res.json(Object.values(groupedByDate));
 };
 
+const notFoundResponse = (res: Response) => {
+  res.json({
+    "RESULT_CODE": 404,
+    "RESULT_MSG": "Not Found"
+  });
+};
+
 const fetchTimetable = async (res: Response, grade: string, classNumber: string, startDate: string, endDate: string) => {
   try {
     const response = await axios.get(`${BASE_URL}hisTimetable`, {
@@ -87,7 +94,7 @@ const fetchTimetable = async (res: Response, grade: string, classNumber: string,
     if (response.data.hisTimetable[1].row) {
       formatResponse(res, response.data.hisTimetable[1], "ALL_TI_YMD", "period", "PERIO", "subject", "ITRT_CNTNT");
     } else {
-      res.status(404).send("ERROR: 해당하는 학년, 반의 일일 시간표가 존재하지 않습니다.");
+      notFoundResponse(res);
     }
   } catch (error) {
     console.error("API call ERROR:", error);
@@ -111,7 +118,7 @@ const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
     if (response.data.mealServiceDietInfo[1].row) {
       formatResponse(res, response.data.mealServiceDietInfo[1], "MLSV_YMD", "dish", "DDISH_NM", "calorie", "CAL_INFO");
     } else {
-      res.status(404).send("ERROR: 식단표가 존재하지 않습니다.");
+      notFoundResponse(res);
     }
   } catch (error) {
     console.error("API call ERROR:", error);
