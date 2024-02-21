@@ -112,6 +112,24 @@ const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
   } catch (error) {
     console.error("API call ERROR:", error);
     res.status(500).send("API 호출을 실패했습니다.");
+
+    /// TODO: NIES API에 식단표가 없을 경우, 학교 홈페이지 크롤링으로 식단표 가져오기
+    // try {
+    //   const url = 'https://buyong-h.goeujb.kr/buyong-h/main.do';
+    //   const response = await axios.get(url);
+    //   const html = response.data;
+
+    //   const $ = cheerio.load(html);
+
+    //   const mealList = $("dd.meal_list").text();
+
+    //   res.json({
+    //     mealList
+    //   });
+    // } catch (error) {
+    //   console.error("API call ERROR:", error);
+    //   res.status(500).send("API 호출을 실패했습니다.");
+    // }
   }
 };
 
