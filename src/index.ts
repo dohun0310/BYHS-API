@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -38,6 +38,32 @@ const getWeekRange = (date: Date) => {
   return { mon: formatDate(monday), fri: formatDate(friday) };
 };
 
+const formatResponse = (res: Response, response: AxiosResponse, date: any, firstProperty: any, firstItem: any, secondProperty: any, secondItem: any) => {
+  const groupedByDate = response.data.hisTimetable[1]?.row?.reduce((acc: any, item: any) => {
+    const year = item[date].substring(0, 4);
+    const month = item[date].substring(4, 6);
+    const day = item[date].substring(6, 8);
+    const apiDate = new Date(`${year}-${month}-${day}`);
+    const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric" });
+    const formattedDate = dateFormatter.format(apiDate);
+
+    const detail = {
+      [firstProperty]: item[firstItem],
+      [secondProperty]: item[secondItem]
+    };
+
+    if (!acc[formattedDate]) {
+      acc[formattedDate] = { date: formattedDate, details: [] };
+    }
+    
+    acc[formattedDate].details.push(detail);
+
+    return acc;
+  }, {});
+
+  res.json(Object.values(groupedByDate));
+};
+
 const fetchTimetable = async (res: Response, grade: string, classNumber: string, startDate: string, endDate: string) => {
   try {
     const response = await axios.get(`${BASE_URL}hisTimetable`, {
@@ -54,27 +80,7 @@ const fetchTimetable = async (res: Response, grade: string, classNumber: string,
     });
 
     if (response.data.hisTimetable[1].row) {
-      const groupedByDate = response.data.hisTimetable[1].row.reduce((acc: any, item: any) => {
-        const year = item.ALL_TI_YMD.substring(0, 4);
-        const month = item.ALL_TI_YMD.substring(4, 6);
-        const day = item.ALL_TI_YMD.substring(6, 8);
-        const api_date = new Date(`${year}-${month}-${day}`);
-        const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric" });
-        const formattedDate = dateFormatter.format(api_date);
-
-        if (!acc[formattedDate]) {
-          acc[formattedDate] = { date: formattedDate, details: [] };
-        }
-        
-        acc[formattedDate].details.push({
-          PERIO: item.PERIO,
-          SUBJECT: item.ITRT_CNTNT
-        });
-
-        return acc;
-      }, {});
-
-      res.json(Object.values(groupedByDate));
+      formatResponse(res, response, "ALL_TI_YMD", "period", "PERIO", "subject", "ITRT_CNTNT");
     } else {
       res.status(404).send("ERROR: 해당하는 학년, 반의 일일 시간표가 존재하지 않습니다.");
     }
