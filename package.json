@@ -1,5 +1,5 @@
 {
-  "name": "BYHS-App-Back-End",
+  "name": "BYHS-API",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
