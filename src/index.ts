@@ -24,15 +24,12 @@ const getFormatDate = (date: Date) => {
   return `${year}${month}${day}`;
 };
 
-const getMonday = (date: Date) => {
+const getWeekRange = (date: Date) => {
   const day = date.getDay();
-  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-  return new Date(date.setDate(diff));
-};
-
-const getFriday = (date: Date) => {
-  const monday = getMonday(new Date(date));
-  return new Date(monday.setDate(monday.getDate() + 4));
+  const diffToMonday = date.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(date.setDate(diffToMonday));
+  const friday = new Date(date.setDate(monday.getDate() + 4));
+  return { TI_FROM_YMD: getFormatDate(monday), TI_TO_YMD: getFormatDate(friday) };
 };
 
 app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) => {
@@ -94,8 +91,7 @@ app.get("/getWeekTimeTable/:grade/:class", async (req: Request, res: Response) =
         SD_SCHUL_CODE: SCHOOL_CODE,
         GRADE: grade,
         CLASS_NM: classNumber,
-        TI_FROM_YMD: monday,
-        TI_TO_YMD: friday,
+        ...getWeekRange(new Date()),
       }
     });
 
