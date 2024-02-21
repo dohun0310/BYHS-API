@@ -7,6 +7,16 @@ dotenv.config();
 const app = express()
 const port = 3000
 
+const API_KEY = process.env.API_KEY;
+const BASE_URL = "https://open.neis.go.kr/hub/";
+const OFFICE_CODE = "J10";
+const SCHOOL_CODE = "7530575";
+
+if (!API_KEY) {
+  console.error("ERROR: .env 파일에 API_KEY가 존재하지 않아요.");
+  process.exit(1);
+}
+
 const now = new Date();
 const formattedDate = (date: Date) => {
   const year = date.getFullYear();
@@ -18,11 +28,6 @@ const formattedDate = (date: Date) => {
 
   return `${year}${formattedMonth}${formattedDay}`;
 };
-
-const API_KEY = process.env.API_KEY;
-const BASE_URL = "https://open.neis.go.kr/hub/";
-const OFFICE_CODE = "J10";
-const SCHOOL_CODE = "7530575";
 
 const Today = formattedDate(now);
 
@@ -47,13 +52,13 @@ app.get("/todaytimetable/:grade/:class", async (req: Request, res: Response) => 
         const year = item.ALL_TI_YMD.substring(0, 4);
         const month = item.ALL_TI_YMD.substring(4, 6);
         const day = item.ALL_TI_YMD.substring(6, 8);
-        const date = new Date(`${year}-${month}-${day}`);
+        const api_date = new Date(`${year}-${month}-${day}`);
     
         const dateFormatter = new Intl.DateTimeFormat('ko-KR', {
           month: 'long',
           day: 'numeric'
         });
-        const formattedDate = dateFormatter.format(date);
+        const formattedDate = dateFormatter.format(api_date);
     
         return {
           ALL_TI_YMD: formattedDate,
