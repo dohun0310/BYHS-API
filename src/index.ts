@@ -48,16 +48,20 @@ const formatResponse = (res: Response, property: any, date: any, firstProperty: 
     const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric" });
     const formattedDate = dateFormatter.format(apiDate);
 
-    const detail = {
-      [firstProperty]: item[firstItem],
-      [secondProperty]: item[secondItem]
-    };
-
     if (!acc[formattedDate]) {
-      acc[formattedDate] = { date: formattedDate, details: [] };
+      acc[formattedDate] = {
+        "RESULT_CODE": 200,
+        "RESULT_MSG": "Success",
+        "RESULT_DATA": {
+          date: formattedDate,
+          [firstProperty]: {},
+          [secondProperty]: {},
+        },
+      };
     }
-    
-    acc[formattedDate].details.push(detail);
+
+    acc[formattedDate][firstProperty] = item[firstItem];
+    acc[formattedDate][secondProperty] = item[secondItem];
 
     return acc;
   }, {});
