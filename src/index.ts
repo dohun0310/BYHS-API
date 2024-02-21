@@ -38,8 +38,8 @@ const getWeekRange = (date: Date) => {
   return { mon: formatDate(monday), fri: formatDate(friday) };
 };
 
-const formatResponse = (res: Response, response: AxiosResponse, date: any, firstProperty: any, firstItem: any, secondProperty: any, secondItem: any) => {
-  const groupedByDate = response.data.hisTimetable[1]?.row?.reduce((acc: any, item: any) => {
+const formatResponse = (res: Response, property: any, date: any, firstProperty: any, firstItem: any, secondProperty: any, secondItem: any) => {
+  const groupedByDate = property?.row?.reduce((acc: any, item: any) => {
     const year = item[date].substring(0, 4);
     const month = item[date].substring(4, 6);
     const day = item[date].substring(6, 8);
@@ -80,7 +80,7 @@ const fetchTimetable = async (res: Response, grade: string, classNumber: string,
     });
 
     if (response.data.hisTimetable[1].row) {
-      formatResponse(res, response, "ALL_TI_YMD", "period", "PERIO", "subject", "ITRT_CNTNT");
+      formatResponse(res, response.data.hisTimetable[1], "ALL_TI_YMD", "period", "PERIO", "subject", "ITRT_CNTNT");
     } else {
       res.status(404).send("ERROR: 해당하는 학년, 반의 일일 시간표가 존재하지 않습니다.");
     }
