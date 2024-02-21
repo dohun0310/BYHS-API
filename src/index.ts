@@ -17,7 +17,7 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-const getFormatDate = (date: Date) => {
+const formatDate = (date: Date) => {
   const year = date.getFullYear();
   const month = (`0${date.getMonth() + 1}`).slice(-2);
   const day = (`0${date.getDate()}`).slice(-2);
@@ -29,7 +29,7 @@ const getWeekRange = (date: Date) => {
   const diffToMonday = date.getDate() - day + (day === 0 ? -6 : 1);
   const monday = new Date(date.setDate(diffToMonday));
   const friday = new Date(date.setDate(monday.getDate() + 4));
-  return { TI_FROM_YMD: getFormatDate(monday), TI_TO_YMD: getFormatDate(friday) };
+  return { TI_FROM_YMD: formatDate(monday), TI_TO_YMD: formatDate(friday) };
 };
 
 app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) => {
@@ -44,7 +44,7 @@ app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) 
         SD_SCHUL_CODE: SCHOOL_CODE,
         GRADE: grade,
         CLASS_NM: classNumber,
-        ALL_TI_YMD: getFormatDate(new Date()),
+        ALL_TI_YMD: formatDate(new Date()),
       }
     });
 
