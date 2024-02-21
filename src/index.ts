@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import axios from "axios";
+import cheerio from "cheerio";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -127,7 +128,6 @@ app.get("/getWeekTimeTable/:grade/:class", async (req: Request, res: Response) =
 
   fetchTimetable(res, grade, classNumber, mon, fri);
 })
-
 
 app.get("/getTodayMeal", async (req: Request, res: Response) => {
   const today = getToday(new Date());
