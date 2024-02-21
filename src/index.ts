@@ -106,32 +106,33 @@ app.get("/weektimetable/:grade/:class", async (req: Request, res: Response) => {
     });
 
     if (response.data && response.data.hisTimetable && response.data.hisTimetable[1].row) {
-      const timetable = response.data.hisTimetable[1].row.map((item: any) => {
+      const groupedByDate = response.data.hisTimetable[1].row.reduce((acc: any, item: any) => {
         const year = item.ALL_TI_YMD.substring(0, 4);
         const month = item.ALL_TI_YMD.substring(4, 6);
         const day = item.ALL_TI_YMD.substring(6, 8);
         const api_date = new Date(`${year}-${month}-${day}`);
-    
-        const dateFormatter = new Intl.DateTimeFormat('ko-KR', {
-          month: 'long',
-          day: 'numeric'
-        });
+        const dateFormatter = new Intl.DateTimeFormat('ko-KR', { month: 'long', day: 'numeric' });
         const formattedDate = dateFormatter.format(api_date);
-    
-        return {
-          ALL_TI_YMD: formattedDate,
+
+        if (!acc[formattedDate]) {
+          acc[formattedDate] = { ALL_TI_YMD: formattedDate, details: [] };
+        }
+        
+        acc[formattedDate].details.push({
           PERIO: item.PERIO,
           ITRT_CNTNT: item.ITRT_CNTNT
-        };
-      });
-  
-      res.json(timetable);
+        });
+
+        return acc;
+      }, {});
+
+      res.json(Object.values(groupedByDate));
     } else {
-      res.status(404).send("해당하는 학년, 반의 오늘 시간표가 존재하지 않아요.");
+      res.status(404).send("ERROR: 해당하는 학년, 반의 주간 시간표가 존재하지 않습니다.");
     }
   } catch (error) {
-    console.error("API call error:", error);
-    res.status(500).send("Internal Server Error");
+    console.error("API call ERROR:", error);
+    res.status(500).send("API 호출을 실패했습니다.");
   }
 })
 
