@@ -76,6 +76,15 @@ const notFoundResponse = (res: Response) => {
   });
 };
 
+const errorResponse = (res: Response, error: any) => {
+  console.error("API call ERROR:", error);
+
+  res.json({
+    "RESULT_CODE": 500,
+    "RESULT_MSG": "Error"
+  });
+};
+
 const fetchTimetable = async (res: Response, grade: string, classNumber: string, startDate: string, endDate: string) => {
   try {
     const response = await axios.get(`${BASE_URL}hisTimetable`, {
@@ -97,8 +106,7 @@ const fetchTimetable = async (res: Response, grade: string, classNumber: string,
       notFoundResponse(res);
     }
   } catch (error) {
-    console.error("API call ERROR:", error);
-    res.status(500).send("API 호출을 실패했습니다.");
+    errorResponse(res, error);
   }
 };
 
@@ -121,8 +129,7 @@ const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
       notFoundResponse(res);
     }
   } catch (error) {
-    console.error("API call ERROR:", error);
-    res.status(500).send("API 호출을 실패했습니다.");
+    errorResponse(res, error);
 
     /// TODO: NIES API에 식단표가 없을 경우, 학교 홈페이지 크롤링으로 식단표 가져오기
     // try {
@@ -138,8 +145,7 @@ const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
     //     mealList
     //   });
     // } catch (error) {
-    //   console.error("API call ERROR:", error);
-    //   res.status(500).send("API 호출을 실패했습니다.");
+    //   errorResponse(res, error);
     // }
   }
 };
