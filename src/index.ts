@@ -17,7 +17,7 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-const getTodayDate = (date: Date) => {
+const getFormatDate = (date: Date) => {
   const year = date.getFullYear();
   const month = (`0${date.getMonth() + 1}`).slice(-2);
   const day = (`0${date.getDate()}`).slice(-2);
@@ -47,7 +47,7 @@ app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) 
         SD_SCHUL_CODE: SCHOOL_CODE,
         GRADE: grade,
         CLASS_NM: classNumber,
-        ALL_TI_YMD: getTodayDate(new Date()),
+        ALL_TI_YMD: getFormatDate(new Date()),
       }
     });
 
