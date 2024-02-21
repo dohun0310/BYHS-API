@@ -41,7 +41,7 @@ const today = formattedDate(now);
 const monday = formattedDate(getMonday(now));
 const friday = formattedDate(getFriday(now));
 
-app.get("/todayTimeTable/:grade/:class", async (req: Request, res: Response) => {
+app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) => {
   const { grade, class: classNumber } = req.params;
 
   try {
