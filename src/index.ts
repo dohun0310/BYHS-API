@@ -17,13 +17,11 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-const now = new Date();
-const formattedDate = (date: Date) => {
+const getTodayDate = (date: Date) => {
   const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
+  const month = (`0${date.getMonth() + 1}`).slice(-2);
+  const day = (`0${date.getDate()}`).slice(-2);
+  return `${year}${month}${day}`;
 };
 
 const getMonday = (date: Date) => {
@@ -37,10 +35,6 @@ const getFriday = (date: Date) => {
   return new Date(monday.setDate(monday.getDate() + 4));
 };
 
-const today = formattedDate(now);
-const monday = formattedDate(getMonday(now));
-const friday = formattedDate(getFriday(now));
-
 app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) => {
   const { grade, class: classNumber } = req.params;
 
@@ -53,7 +47,7 @@ app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) 
         SD_SCHUL_CODE: SCHOOL_CODE,
         GRADE: grade,
         CLASS_NM: classNumber,
-        ALL_TI_YMD: today,
+        ALL_TI_YMD: getTodayDate(new Date()),
       }
     });
 
