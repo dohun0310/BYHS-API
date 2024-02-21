@@ -104,6 +104,33 @@ app.get("/getWeekTimeTable/:grade/:class", async (req: Request, res: Response) =
   fetchTimetable(res, grade, classNumber, mon, fri);
 })
 
+
+app.get("/getTodayMeal", async (req: Request, res: Response) => {
+  const today = getToday(new Date());
+
+  try {
+    const response = await axios.get(`${BASE_URL}mealServiceDietInfo`, {
+      params: {
+        KEY: API_KEY,
+        Type: "json",
+        ATPT_OFCDC_SC_CODE: OFFICE_CODE,
+        SD_SCHUL_CODE: SCHOOL_CODE,
+        MLSV_FROM_YMD: today,
+        MLSV_TO_YMD: today,
+      }
+    });
+
+    if (response.data.mealServiceDietInfo[1].row) {
+      formatResponse(res, response.data.mealServiceDietInfo[1], "MLSV_YMD", "dish", "DDISH_NM", "calorie", "CAL_INFO");
+    } else {
+      res.status(404).send("ERROR: 식단표가 존재하지 않습니다.");
+    }
+  } catch (error) {
+    console.error("API call ERROR:", error);
+    res.status(500).send("API 호출을 실패했습니다.");
+  }
+})
+
 app.listen(port, () => {
   console.log(`Your app is running at http://localhost:${port}`)
 })
