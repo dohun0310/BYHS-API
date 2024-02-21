@@ -135,6 +135,12 @@ app.get("/getTodayMeal", async (req: Request, res: Response) => {
   fetchMeal(res, today, today);
 })
 
+app.get("/getWeekMeal", async (req: Request, res: Response) => {
+  const { mon, fri } = getWeekRange(new Date());
+
+  fetchMeal(res, mon, fri);
+})
+
 app.listen(port, () => {
   console.log(`Your app is running at http://localhost:${port}`)
 })
