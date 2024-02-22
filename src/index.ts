@@ -45,7 +45,7 @@ const formatResponse = (res: Response, property: any, date: any, firstProperty: 
     const month = item[date].substring(4, 6);
     const day = item[date].substring(6, 8);
     const apiDate = new Date(`${year}-${month}-${day}`);
-    const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric" });
+    const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "long" });
     const formattedDate = dateFormatter.format(apiDate);
 
     if (!acc[formattedDate]) {
