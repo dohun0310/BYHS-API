@@ -93,7 +93,7 @@ API_URL/getTodayTimeTable/3(학년)/10(반)
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 1일",
+      "date": "1월 1일 월요일",
       "period":[
         "1", "2", "3", "4", "5", "6"
       ], 
@@ -120,7 +120,7 @@ API_URL/getWeekTimeTable/3(학년)/10(반)
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 1일",
+      "date": "1월 1일 월요일",
       "period":[
         "1", "2", "3", "4", "5", "6"
       ], 
@@ -133,7 +133,7 @@ API_URL/getWeekTimeTable/3(학년)/10(반)
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 2일",
+      "date": "1월 2일 화요일",
       "period":[
         "1", "2", "3", "4", "5", "6", "7"
       ], 
@@ -146,7 +146,7 @@ API_URL/getWeekTimeTable/3(학년)/10(반)
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 3일",
+      "date": "1월 3일 수요일",
       "period":[
         "1", "2", "3", "4", "5", "6", "7"
       ], 
@@ -159,7 +159,7 @@ API_URL/getWeekTimeTable/3(학년)/10(반)
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 4일",
+      "date": "1월 4일 목요일",
       "period":[
         "1", "2", "3", "4", "5", "6", "7"
       ], 
@@ -172,7 +172,7 @@ API_URL/getWeekTimeTable/3(학년)/10(반)
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 5일",
+      "date": "1월 5일 금요일",
       "period":[
         "1", "2", "3", "4", "5", "6", "7"
       ], 
@@ -199,7 +199,7 @@ API_URL/getTodayMeal
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 1일",
+      "date": "1월 1일 월요일",
       "dish": [
         "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
       ],
@@ -226,7 +226,7 @@ API_URL/getWeekMeal
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 1일",
+      "date": "1월 1일 월요일",
       "dish": [
         "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
       ],
@@ -239,7 +239,7 @@ API_URL/getWeekMeal
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 2일",
+      "date": "1월 2일 화요일",
       "dish": [
         "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
       ],
@@ -252,7 +252,7 @@ API_URL/getWeekMeal
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 3일",
+      "date": "1월 3일 수요일",
       "dish": [
         "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
       ],
@@ -265,7 +265,7 @@ API_URL/getWeekMeal
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 4일",
+      "date": "1월 4일 목요일",
       "dish": [
         "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
       ],
@@ -278,7 +278,7 @@ API_URL/getWeekMeal
     "RESULT_CODE": 200,
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
-      "date": "1월 5일",
+      "date": "1월 5일 금요일",
       "dish": [
         "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
       ],
