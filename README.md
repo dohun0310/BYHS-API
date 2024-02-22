@@ -4,16 +4,22 @@
 
 ## 시작하기
 
-### 사전 요구사항
+### 개발용 사전 요구사항
 
-1. Node.js가 설치되어 있어야 합니다.
+1. `Node.js`가 설치되어 있어야 합니다.
 2. 프로젝트에 필요한 환경 변수를 설정하기 위해 .env 파일이 필요합니다.
+
+### 운영용 사전 요구사항
+
+1. `Docker`가 설치되어 있어야 합니다.
+2. `Container` 생성 시, API_KEY를 지정해야 합니다.
+3. 본인 환경에 맞게 포트포워딩을 해야 합니다.
 
 ### 로컬 환경
 
 1. 이 프로젝트를 클론합니다.
-```
-https://github.com/dohun0310/BYHS-API
+```bash
+git clone https://github.com/dohun0310/BYHS-API
 ```
 2. 프로젝트 디렉토리로 이동한 후, 필요한 패키지를 설치합니다.
 ```bash
@@ -37,19 +43,19 @@ http://localhost:8080
 
 1. [`Docker`](https://docs.docker.com/get-docker/)를 설치합니다.
 
-2. `image`를 가져옵니다.
+2. `Image`를 가져옵니다.
 ```bash
 sudo docker image pull dohun0310/byhs-api:latest
 ```
 
-3. `container`를 생성합니다.
+3. `Container`를 생성합니다.
 ```bash
 sudo docker run -d --name byhs-api -p 8080:8080 -e API_KEY=YOUR_NEIS_API_KEY --restart=on-failure dohun0310/byhs-api:latest
 ```
 
 5. 서버가 시작되면, 다음 주소를 통해 애플리케이션에 접근할 수 있습니다.
 ```
-YOUT_API_URL:8080
+API_URL:8080
 ```
 
 ## API 사용법
