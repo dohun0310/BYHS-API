@@ -59,12 +59,8 @@ const formatResponse = (res: Response, property: any, date: any, firstProperty: 
         },
       };
     } else {
-      if (!acc[formattedDate]["RESULT_DATA"][firstProperty].includes(item[firstItem])) {
-        acc[formattedDate]["RESULT_DATA"][firstProperty].push(item[firstItem]);
-      }
-      if (!acc[formattedDate]["RESULT_DATA"][secondProperty].includes(item[secondItem])) {
-        acc[formattedDate]["RESULT_DATA"][secondProperty].push(item[secondItem]);
-      }
+      acc[formattedDate]["RESULT_DATA"][firstProperty].push(item[firstItem]);
+      acc[formattedDate]["RESULT_DATA"][secondProperty].push(item[secondItem]);
     }
 
     return acc;
