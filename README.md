@@ -35,30 +35,21 @@ http://localhost:8080
 
 ### 운영 환경
 
-1. 이 프로젝트를 클론합니다.
-```
-https://github.com/dohun0310/BYHS-API
-```
-2. 프로젝트 디렉토리로 이동한 후, 필요한 패키지를 설치합니다.
+1. [`Docker`](https://docs.docker.com/get-docker/)를 설치합니다.
+
+2. `image`를 가져옵니다.
 ```bash
-cd BYHS-API
-yarn add
+sudo docker image pull dohun0310/byhs-api:latest
 ```
-3. `.env` 파일을 프로젝트 루트에 생성하고, 다음과 같이 API 키를 추가합니다.
-```.env
-API_KEY = NEIS_API_KEY
-```
-4. 서버를 빌드합니다.
+
+3. `container`를 생성합니다.
 ```bash
-yarn build
+sudo docker run -d --name byhs-api -p 8080:8080 -e API_KEY=YOUR_NEIS_API_KEY --restart=on-failure dohun0310/byhs-api:latest
 ```
-5. 서버를 시작합니다.
-```bash
-yarn start
-```
+
 5. 서버가 시작되면, 다음 주소를 통해 애플리케이션에 접근할 수 있습니다.
 ```
-http://API_URL:8080
+YOUT_API_URL:8080
 ```
 
 ## API 사용법
