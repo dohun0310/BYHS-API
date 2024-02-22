@@ -302,6 +302,8 @@ API_URL/getWeekMeal
 - Axios
 - Cheerio
 - dotenv
+- Docker
+- Jenkins
 
 ## 기여하기
 
