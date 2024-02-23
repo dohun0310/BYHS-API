@@ -66,7 +66,7 @@ const formatResponse = (res: Response, property: any, date: any, firstProperty: 
     return acc;
   }, {});
 
-  res.json(Object.values(groupedByDate));
+  res.status(200).json(Object.values(groupedByDate));
 };
 
 const notFoundResponse = (res: Response) => {
