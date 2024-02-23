@@ -70,10 +70,10 @@ const formatResponse = (res: Response, property: any, date: any, firstProperty: 
 };
 
 const notFoundResponse = (res: Response) => {
-  res.json({
+  res.status(404).json([{
     "RESULT_CODE": 404,
     "RESULT_MSG": "Not Found"
-  });
+  }]);
 };
 
 const errorResponse = (res: Response, error: any) => {
