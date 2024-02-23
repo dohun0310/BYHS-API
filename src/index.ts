@@ -100,7 +100,7 @@ const fetchTimetable = async (res: Response, grade: string, classNumber: string,
       }
     });
 
-    if (response.data.hisTimetable[1].row) {
+    if (response.data.hisTimetable && response.data.hisTimetable[1] && response.data.hisTimetable[1].row) {
       formatResponse(res, response.data.hisTimetable[1], "ALL_TI_YMD", "period", "PERIO", "subject", "ITRT_CNTNT");
     } else {
       notFoundResponse(res);
