@@ -14,7 +14,7 @@ const OFFICE_CODE = "J10";
 const SCHOOL_CODE = "7530575";
 
 if (!API_KEY) {
-  console.error("ERROR: .env 파일에 API_KEY가 존재하지 않기 때문에 종료합니다. 프로젝트 폴더 안에. env 파일이 있는지 확인하고, API_KEY=YOUR_API_KEY 형식으로 작성해야 합니다.");
+  console.error("ERROR: .env 파일에 API_KEY가 존재하지 않기 때문에 종료합니다. 프로젝트 폴더 안에. env 파일이 있는지 확인하고, API_KEY=NEIS_API_KEY 형식으로 작성해야 합니다.");
   process.exit(1);
 }
 
@@ -39,13 +39,17 @@ const getWeekRange = (date: Date) => {
   return { mon: formatDate(monday), fri: formatDate(friday) };
 };
 
+const today = getToday(new Date());
+const { mon, fri } = getWeekRange(new Date());
+const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "long" });
+const formattedToday = dateFormatter.format(new Date());
+
 const formatResponse = (res: Response, property: any, date: any, firstProperty: any, firstItem: any, secondProperty: any, secondItem: any) => {
   const groupedByDate = property?.row?.reduce((acc: any, item: any) => {
     const year = item[date].substring(0, 4);
     const month = item[date].substring(4, 6);
     const day = item[date].substring(6, 8);
     const apiDate = new Date(`${year}-${month}-${day}`);
-    const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "long" });
     const formattedDate = dateFormatter.format(apiDate);
 
     if (!acc[formattedDate]) {
@@ -123,56 +127,53 @@ const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
       }
     });
 
-    if (response.data.mealServiceDietInfo[1].row) {
+    if (response.data.mealServiceDietInfo && response.data.mealServiceDietInfo[1] && response.data.mealServiceDietInfo[1].row) {
       formatResponse(res, response.data.mealServiceDietInfo[1], "MLSV_YMD", "dish", "DDISH_NM", "calorie", "CAL_INFO");
     } else {
-      notFoundResponse(res);
+      /// TODO: NIES API에 식단표가 없을 경우, 학교 홈페이지 크롤링으로 식단표 가져오기
+      const url = "https://buyong-h.goeujb.kr/buyong-h/main.do";
+      const response = await axios.get(url);
+      const $ = cheerio.load(response.data);
+
+      const dish = $("dd.meal_list").text();
+      const calorie = $("dd.meal_list").text();
+
+      if (dish == "") {
+        notFoundResponse(res);
+      } else {
+        res.status(200).json([{
+          "RESULT_CODE": 200,
+          "RESULT_MSG": "Success",
+          "RESULT_DATA": {
+            date: formattedToday,
+            dish: [dish],
+            calorie: [calorie],
+          },
+        }]);
+      }
     }
   } catch (error) {
     errorResponse(res, error);
-
-    /// TODO: NIES API에 식단표가 없을 경우, 학교 홈페이지 크롤링으로 식단표 가져오기
-    // try {
-    //   const url = 'https://buyong-h.goeujb.kr/buyong-h/main.do';
-    //   const response = await axios.get(url);
-    //   const html = response.data;
-
-    //   const $ = cheerio.load(html);
-
-    //   const mealList = $("dd.meal_list").text();
-
-    //   res.json({
-    //     mealList
-    //   });
-    // } catch (error) {
-    //   errorResponse(res, error);
-    // }
   }
 };
 
 app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) => {
   const { grade, class: classNumber } = req.params;
-  const today = getToday(new Date());
 
   fetchTimetable(res, grade, classNumber, today, today);
 })
 
 app.get("/getWeekTimeTable/:grade/:class", async (req: Request, res: Response) => {
   const { grade, class: classNumber } = req.params;
-  const { mon, fri } = getWeekRange(new Date());
 
   fetchTimetable(res, grade, classNumber, mon, fri);
 })
 
 app.get("/getTodayMeal", async (req: Request, res: Response) => {
-  const today = getToday(new Date());
-
   fetchMeal(res, today, today);
 })
 
 app.get("/getWeekMeal", async (req: Request, res: Response) => {
-  const { mon, fri } = getWeekRange(new Date());
-
   fetchMeal(res, mon, fri);
 })
 
