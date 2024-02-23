@@ -79,10 +79,10 @@ const notFoundResponse = (res: Response) => {
 const errorResponse = (res: Response, error: any) => {
   console.error("API call ERROR:", error);
 
-  res.json({
+  res.status(500).json([{
     "RESULT_CODE": 500,
     "RESULT_MSG": "Error"
-  });
+  }]);
 };
 
 const fetchTimetable = async (res: Response, grade: string, classNumber: string, startDate: string, endDate: string) => {
