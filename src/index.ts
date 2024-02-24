@@ -116,6 +116,7 @@ const fetchTimetable = async (res: Response, grade: string, classNumber: string,
 
 const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
   try {
+    
     const response = await axios.get(`${BASE_URL}mealServiceDietInfo`, {
       params: {
         KEY: API_KEY,
@@ -130,26 +131,21 @@ const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
     if (response.data.mealServiceDietInfo && response.data.mealServiceDietInfo[1] && response.data.mealServiceDietInfo[1].row) {
       formatResponse(res, response.data.mealServiceDietInfo[1], "MLSV_YMD", "dish", "DDISH_NM", "calorie", "CAL_INFO");
     } else {
-      /// TODO: NIES API에 식단표가 없을 경우, 학교 홈페이지 크롤링으로 식단표 가져오기
-      const url = "https://buyong-h.goeujb.kr/buyong-h/main.do";
-      const response = await axios.get(url);
-      const $ = cheerio.load(response.data);
+      try {
+        /// TODO: NIES API에 식단표가 없을 경우, 학교 홈페이지 크롤링으로 식단표 가져오기(API 찾음)
 
-      const dish = $("dd.meal_list").text();
-      const calorie = $("dd.meal_list").text();
-
-      if (dish == "") {
-        notFoundResponse(res);
-      } else {
-        res.status(200).json([{
-          "RESULT_CODE": 200,
-          "RESULT_MSG": "Success",
-          "RESULT_DATA": {
-            date: formattedToday,
-            dish: [dish],
-            calorie: [calorie],
-          },
-        }]);
+        const url = "https://buyong-h.goeujb.kr/buyong-h/widgApi/get/json.do";
+        const response = await axios.get(url, {
+          params: {
+            widgSysId: "buyong-h",
+            widgId: "70"
+          }
+        });
+        
+        res.json(response.data);
+      } catch (error) {
+        console.error('Error sending POST request:', error);
+        res.status(500).send('Error sending POST request');
       }
     }
   } catch (error) {
