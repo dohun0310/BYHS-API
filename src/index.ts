@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import axios from "axios";
-import cheerio from "cheerio";
 import dotenv from "dotenv";
 
 dotenv.config();

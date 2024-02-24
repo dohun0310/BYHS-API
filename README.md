@@ -297,7 +297,6 @@ API_URL/getWeekMeal
 - Express.js
 - TypeScript
 - Axios
-- Cheerio
 - dotenv
 - Docker
 - Jenkins
