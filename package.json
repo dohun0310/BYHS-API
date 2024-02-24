@@ -7,7 +7,7 @@
     "build": "tsc -p .",
     "dev": "nodemon src/index.ts --exec ts-node"
   },
-  "repository": "https://github.com/dohun0310/BYHS-App-Back-End",
+  "repository": "https://github.com/dohun0310/BYHS-API",
   "author": "dohun0310 <dohun0310@naver.com>",
   "license": "MIT",
   "devDependencies": {
