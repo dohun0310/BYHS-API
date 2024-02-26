@@ -1,5 +1,7 @@
 FROM node:20.10.0
 
+ENV TZ Asia/Seoul
+
 WORKDIR /app
 
 COPY package.json /app
