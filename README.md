@@ -63,9 +63,9 @@ API_URL:8080
 | endpoint | Description | Parameters |
 |---|---|---|
 | /getTodayTimeTable | grade와 class에 해당하는 학년과 반의 오늘 시간표를 조회합니다. | grade, class |
-| /getWeekTimeTable | grade와 class에 해당하는 학년과 반의 이번 주 시간표를 조회합니다. | grade, class |
+| /getWeekTimeTable | grade와 class에 해당하는 학년과 반의 이번 주 시간표를 조회합니다. 만약, 오늘이 목요일 이후라면 다음 주 금요일까지의 시간표를 조회합니다. | grade, class |
 | /getTodayMeal | 오늘의 식단 정보를 조회합니다. |  |
-| /getWeekMeal | 이번 주 식단 정보를 조회합니다. |  |
+| /getMonthMeal | 이번 달 식단 정보를 조회합니다. 만약, 오늘이 이번 달의 마지막 주라면 다음 달 말일까지의 식단을 조회합니다. |  |
 
 ### 응답 형식
 
@@ -183,6 +183,89 @@ API_URL/getWeekTimeTable/3(학년)/10(반)
   }
 ]
 ```
+
+```json
+[
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "1월 5일 금요일",
+      "period":[
+        "1", "2", "3", "4", "5", "6", "7"
+      ], 
+      "subject":[
+        "1교시", "2교시", "3교시", "4교시", "5교시", "6교시", "7교시"
+      ]
+    }
+  },
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "1월 8일 월요일",
+      "period":[
+        "1", "2", "3", "4", "5", "6"
+      ], 
+      "subject":[
+        "1교시", "2교시", "3교시", "4교시", "5교시", "6교시"
+      ]
+    }
+  },
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "1월 9일 화요일",
+      "period":[
+        "1", "2", "3", "4", "5", "6", "7"
+      ], 
+      "subject":[
+        "1교시", "2교시", "3교시", "4교시", "5교시", "6교시", "7교시"
+      ]
+    }
+  },
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "1월 10일 수요일",
+      "period":[
+        "1", "2", "3", "4", "5", "6", "7"
+      ], 
+      "subject":[
+        "1교시", "2교시", "3교시", "4교시", "5교시", "6교시", "7교시"
+      ]
+    }
+  },
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "1월 11일 목요일",
+      "period":[
+        "1", "2", "3", "4", "5", "6", "7"
+      ], 
+      "subject":[
+        "1교시", "2교시", "3교시", "4교시", "5교시", "6교시", "7교시"
+      ]
+    }
+  },
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "1월 12일 금요일",
+      "period":[
+        "1", "2", "3", "4", "5", "6", "7"
+      ], 
+      "subject":[
+        "1교시", "2교시", "3교시", "4교시", "5교시", "6교시", "7교시"
+      ]
+    }
+  }
+]
+```
 ---
 
 #### /getTodayMeal
@@ -212,11 +295,11 @@ API_URL/getTodayMeal
 ```
 ---
 
-#### /getWeekMeal
+#### /getMonthMeal
 
 요청
 ```
-API_URL/getWeekMeal
+API_URL/getMonthMeal
 ```
 
 응답
@@ -279,6 +362,108 @@ API_URL/getWeekMeal
     "RESULT_MSG": "Success",
     "RESULT_DATA": {
       "date": "1월 5일 금요일",
+      "dish": [
+        "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
+      ],
+      "calorie": [
+        "823.9 Kcal"
+      ]
+    }
+  },
+
+  ...
+
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "1월 31일 수요일",
+      "dish": [
+        "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
+      ],
+      "calorie": [
+        "823.9 Kcal"
+      ]
+    }
+  }
+]
+```
+
+```json
+[
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "1월 30일 화요일",
+      "dish": [
+        "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
+      ],
+      "calorie": [
+        "878.0 Kcal"
+      ]
+    }
+  },
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "1월 31일 수요일",
+      "dish": [
+        "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
+      ],
+      "calorie": [
+        "823.9 Kcal"
+      ]
+    }
+  },
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "2월 1일 목요일",
+      "dish": [
+        "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
+      ],
+      "calorie": [
+        "823.9 Kcal"
+      ]
+    }
+  },
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "2월 2일 금요일",
+      "dish": [
+        "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
+      ],
+      "calorie": [
+        "823.9 Kcal"
+      ]
+    }
+  },
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "2월 5일 화요일",
+      "dish": [
+        "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
+      ],
+      "calorie": [
+        "823.9 Kcal"
+      ]
+    }
+  },
+
+  ...
+
+  {
+    "RESULT_CODE": 200,
+    "RESULT_MSG": "Success",
+    "RESULT_DATA": {
+      "date": "2월 28일 수요일",
       "dish": [
         "밥 (1.2.3)<br/>국 (4.5.6)<br/>김치 (7.8.9)<br/>고기 (10.11.12)<br/>채소 (13.14.15)"
       ],
