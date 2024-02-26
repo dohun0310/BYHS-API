@@ -180,6 +180,10 @@ const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
   }
 };
 
+app.get("/", (req: Request, res: Response) => {
+  res.redirect("https://github.com/dohun0310/BYHS-API");
+});
+
 app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) => {
   const { grade, class: classNumber } = req.params;
 
