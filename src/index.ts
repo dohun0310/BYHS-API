@@ -115,7 +115,6 @@ const fetchTimetable = async (res: Response, grade: string, classNumber: string,
 
 const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
   try {
-    
     const response = await axios.get(`${BASE_URL}mealServiceDietInfo`, {
       params: {
         KEY: API_KEY,
@@ -132,6 +131,7 @@ const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
     } else {
       try {
         /// TODO: NIES API에 식단표가 없을 경우, 학교 홈페이지 크롤링으로 식단표 가져오기(API 찾음)
+        // https://buyong-h.goeujb.kr/buyong-h/ad/fm/foodmenu/selectFoodData.do?fmSeq=16803 주간 API 날이 지날수록 fmSeq의 값이 +1 됨
 
         const url = "https://buyong-h.goeujb.kr/buyong-h/widgApi/get/json.do";
         const response = await axios.get(url, {
@@ -143,8 +143,8 @@ const fetchMeal = async (res: Response, startDate: string, endDate: string) => {
         
         res.json(response.data);
       } catch (error) {
-        console.error('Error sending POST request:', error);
-        res.status(500).send('Error sending POST request');
+        console.log("ERROR: 학교 홈페이지 크롤링 실패", error);
+        notFoundResponse(res);
       }
     }
   } catch (error) {
