@@ -31,15 +31,23 @@ const getToday = (date: Date) => {
 };
 
 const getWeekRange = (date: Date) => {
-  const day = date.getDay();
-  const diffToMonday = date.getDate() - day + (day === 0 ? -6 : 1);
-  const monday = new Date(date.setDate(diffToMonday));
-  const friday = new Date(date.setDate(monday.getDate() + 4));
-  return { mon: formatDate(monday), fri: formatDate(friday) };
+  const today = new Date(date);
+  const dayOfWeek = today.getDay();
+  let endDay;
+
+  if (dayOfWeek >= 4) {
+    endDay = new Date(today);
+    endDay.setDate(today.getDate() + (12 - dayOfWeek));
+  } else {
+    endDay = new Date(today);
+    endDay.setDate(today.getDate() + (5 - dayOfWeek));
+  }
+
+  return { start: formatDate(today), end: formatDate(endDay) };
 };
 
 const today = getToday(new Date());
-const { mon, fri } = getWeekRange(new Date());
+const { start, end } = getWeekRange(new Date());
 const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "long" });
 const formattedToday = dateFormatter.format(new Date());
 
@@ -161,7 +169,7 @@ app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) 
 app.get("/getWeekTimeTable/:grade/:class", async (req: Request, res: Response) => {
   const { grade, class: classNumber } = req.params;
 
-  fetchTimetable(res, grade, classNumber, mon, fri);
+  fetchTimetable(res, grade, classNumber, start, end);
 })
 
 app.get("/getTodayMeal", async (req: Request, res: Response) => {
@@ -169,7 +177,7 @@ app.get("/getTodayMeal", async (req: Request, res: Response) => {
 })
 
 app.get("/getWeekMeal", async (req: Request, res: Response) => {
-  fetchMeal(res, mon, fri);
+  fetchMeal(res, start, end);
 })
 
 app.listen(port, () => {
