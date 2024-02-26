@@ -196,8 +196,8 @@ app.get("/getTodayMeal", async (req: Request, res: Response) => {
   fetchMeal(res, today, today);
 })
 
-app.get("/getWeekMeal", async (req: Request, res: Response) => {
-  fetchMeal(res, weekstart, weekend);
+app.get("/getMonthMeal", async (req: Request, res: Response) => {
+  fetchMeal(res, monthstart, monthend);
 })
 
 app.listen(port, () => {
