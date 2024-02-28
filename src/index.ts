@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 
 import { API_KEY } from "./config";
 import { today, monthstart, monthend, weekstart, weekend } from "./utils/date";
-import { fetchTimetable, fetchMeal } from "./utils/response";
+import { fetchTimetable } from "./services/timetable";
 
 const app = express()
 const port = 8080
