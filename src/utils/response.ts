@@ -1,8 +1,4 @@
 import { Response } from "express";
-import axios from "axios";
-
-import { API_KEY, BASE_URL, OFFICE_CODE, SCHOOL_CODE } from "../config";
-import { temporarytimetable } from "../temporarydata";
 
 import { dateFormatter } from "./date";
 
