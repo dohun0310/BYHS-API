@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import axios from "axios";
 import dotenv from "dotenv";
 
+import { temporarytimetable } from "./temporarydata";
+
 dotenv.config();
 
 const app = express()
@@ -134,7 +136,23 @@ const fetchTimetable = async (res: Response, grade: string, classNumber: string,
     if (response.data.hisTimetable && response.data.hisTimetable[1] && response.data.hisTimetable[1].row) {
       formatResponse(res, response.data.hisTimetable[1], "ALL_TI_YMD", "period", "PERIO", "subject", "ITRT_CNTNT");
     } else {
-      notFoundResponse(res);
+      let response_data = [];
+      
+      for (let i = Number(startDate); i <= 20240308; i++) {
+        const response = {
+          "RESULT_CODE": 200,
+          "RESULT_MSG": "Success",
+          "RESULT_DATA": temporarytimetable[i][grade][classNumber],
+        };
+        
+        response_data.push(response);
+      }
+
+      if (response_data.length > 0) {
+        res.status(200).json(response_data);
+      } else {
+        notFoundResponse(res);
+      }
     }
   } catch (error) {
     errorResponse(res, error);
