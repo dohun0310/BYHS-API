@@ -1,18 +1,11 @@
 import express, { Request, Response } from "express";
 import axios from "axios";
-import dotenv from "dotenv";
 
+import { API_KEY, BASE_URL, OFFICE_CODE, SCHOOL_CODE } from "./config";
 import { temporarytimetable } from "./temporarydata";
-
-dotenv.config();
 
 const app = express()
 const port = 8080
-
-const API_KEY = process.env.API_KEY;
-const BASE_URL = "https://open.neis.go.kr/hub/";
-const OFFICE_CODE = "J10";
-const SCHOOL_CODE = "7530575";
 
 if (!API_KEY) {
   console.error("ERROR: .env 파일에 API_KEY가 존재하지 않기 때문에 종료합니다. 프로젝트 폴더 안에. env 파일이 있는지 확인하고, API_KEY=NEIS_API_KEY 형식으로 작성해야 합니다.");
