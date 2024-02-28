@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import axios from "axios";
 
 import { API_KEY, BASE_URL, OFFICE_CODE, SCHOOL_CODE } from "./config";
-import { getToday, getMonthRange, getWeekRange } from "./utils/date";
+import { today, monthstart, monthend, weekstart, weekend, dateFormatter } from "./utils/date";
 import { temporarytimetable } from "./temporarydata";
 
 const app = express()
@@ -12,11 +12,6 @@ if (!API_KEY) {
   console.error("ERROR: .env 파일에 API_KEY가 존재하지 않기 때문에 종료합니다. 프로젝트 폴더 안에. env 파일이 있는지 확인하고, API_KEY=NEIS_API_KEY 형식으로 작성해야 합니다.");
   process.exit(1);
 }
-
-const today = getToday(new Date());
-const { monthstart, monthend } = getMonthRange(new Date());
-const { weekstart, weekend } = getWeekRange(new Date());
-const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "long" });
 
 const formatResponse = (res: Response, property: any, date: any, firstProperty: any, firstItem: any, secondProperty: any, secondItem: any) => {
   const groupedByDate = property?.row?.reduce((acc: any, item: any) => {

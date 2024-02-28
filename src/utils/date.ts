@@ -5,9 +5,9 @@ const formatDate = (date: Date): string => {
   return `${year}${month}${day}`;
 };
 
-export const getToday = (date: Date = new Date()): string => { return formatDate(date); };
+const getToday = (date: Date = new Date()): string => { return formatDate(date); };
 
-export const getMonthRange = (date: Date): { monthstart: string, monthend: string } => {
+const getMonthRange = (date: Date): { monthstart: string, monthend: string } => {
   const startDay = new Date(date);
   const currentMonth = startDay.getMonth();
   const currentYear = startDay.getFullYear();
@@ -26,7 +26,7 @@ export const getMonthRange = (date: Date): { monthstart: string, monthend: strin
   return { monthstart: formatDate(startDay), monthend: formatDate(endDay) };
 };
 
-export const getWeekRange = (date: Date): { weekstart: string, weekend: string } => {
+const getWeekRange = (date: Date): { weekstart: string, weekend: string } => {
   const today = new Date(date);
   const dayOfWeek = today.getDay();
   let endDay;
@@ -41,3 +41,11 @@ export const getWeekRange = (date: Date): { weekstart: string, weekend: string }
 
   return { weekstart: formatDate(today), weekend: formatDate(endDay) };
 };
+
+export const today = getToday(new Date());
+
+export const { monthstart, monthend } = getMonthRange(new Date());
+
+export const { weekstart, weekend } = getWeekRange(new Date());
+
+export const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "long" });
