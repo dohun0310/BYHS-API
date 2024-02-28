@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import axios from "axios";
 
 import { API_KEY, BASE_URL, OFFICE_CODE, SCHOOL_CODE } from "./config";
+import { getToday, getMonthRange, getWeekRange } from "./utils/date";
 import { temporarytimetable } from "./temporarydata";
 
 const app = express()
@@ -12,59 +13,10 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-const formatDate = (date: Date) => {
-  const year = date.getFullYear();
-  const month = (`0${date.getMonth() + 1}`).slice(-2);
-  const day = (`0${date.getDate()}`).slice(-2);
-  return `${year}${month}${day}`;
-};
-
-const getToday = (date: Date) => {
-  const day = date.getDate();
-  const today = new Date(date.setDate(day))
-  return formatDate(today);
-};
-
-const getWeekRange = (date: Date) => {
-  const today = new Date(date);
-  const dayOfWeek = today.getDay();
-  let endDay;
-
-  if (dayOfWeek >= 4) {
-    endDay = new Date(today);
-    endDay.setDate(today.getDate() + (12 - dayOfWeek));
-  } else {
-    endDay = new Date(today);
-    endDay.setDate(today.getDate() + (5 - dayOfWeek));
-  }
-
-  return { weekstart: formatDate(today), weekend: formatDate(endDay) };
-};
-
-const getMonthRange = (date: Date) => {
-  const startDay = new Date(date);
-  const currentMonth = startDay.getMonth();
-  const currentYear = startDay.getFullYear();
-  let endDay;
-
-  const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
-
-  if (startDay.getDate() > lastDayOfMonth.getDate() - 7) {
-    const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
-    const nextYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-    endDay = new Date(nextYear, nextMonth + 1, 0);
-  } else {
-    endDay = lastDayOfMonth;
-  }
-
-  return { monthstart: formatDate(startDay), monthend: formatDate(endDay) };
-};
-
 const today = getToday(new Date());
-const { weekstart, weekend } = getWeekRange(new Date());
 const { monthstart, monthend } = getMonthRange(new Date());
+const { weekstart, weekend } = getWeekRange(new Date());
 const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "long" });
-const formattedToday = dateFormatter.format(new Date());
 
 const formatResponse = (res: Response, property: any, date: any, firstProperty: any, firstItem: any, secondProperty: any, secondItem: any) => {
   const groupedByDate = property?.row?.reduce((acc: any, item: any) => {
