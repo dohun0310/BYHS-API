@@ -1,5 +1,6 @@
-import axios from "axios";
 import { Response } from "express";
+import axios from "axios";
+
 import { API_KEY, BASE_URL, OFFICE_CODE, SCHOOL_CODE } from "../config";
 import { formatResponse, errorResponse, notFoundResponse } from "../utils/response";
 import { temporarytimetable } from "../temporarydata";
