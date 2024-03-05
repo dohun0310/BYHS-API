@@ -7,10 +7,10 @@ import { temporarytimetable } from "../temporarydata";
 
 export const fetchTimetable = async (
   res: Response,
-  grade: number,
-  classNumber: number,
-  startDate: number,
-  endDate: number
+  grade: string,
+  classNumber: string,
+  startDate: string,
+  endDate: string
 ) => {
   try {
     const response = await axios.get(`${BASE_URL}hisTimetable`, {
