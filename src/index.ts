@@ -15,14 +15,14 @@ app.get("/getTodayTimeTable/:grade/:class", async (req: Request, res: Response) 
   const { grade, class: classNumber } = req.params;
   const today = getToday();
 
-  fetchTimetable(res, Number(grade), Number(classNumber), today, today);
+  fetchTimetable(res, grade, classNumber, today, today);
 })
 
 app.get("/getWeekTimeTable/:grade/:class", async (req: Request, res: Response) => {
   const { grade, class: classNumber } = req.params;
   const { weekstart, weekend } = getWeekRange();
 
-  fetchTimetable(res, Number(grade), Number(classNumber), weekstart, weekend);
+  fetchTimetable(res, grade, classNumber, weekstart, weekend);
 })
 
 app.get("/getTodayMeal", async (req: Request, res: Response) => {
