@@ -16,7 +16,7 @@ export const getWeekRange = (): { weekstart: string, weekend: string } => {
   const today = new Date();
   const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)));
   const lastDayOfWeek = new Date(firstDayOfWeek);
-  lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
+  lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 4);
 
   return { weekstart: formatDate(firstDayOfWeek), weekend: formatDate(lastDayOfWeek) };
 };
