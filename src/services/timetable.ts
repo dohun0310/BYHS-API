@@ -29,22 +29,14 @@ export const fetchTimetable = async (
     if (response.data.hisTimetable && response.data.hisTimetable[1] && response.data.hisTimetable[1].row) {
       formatResponse(res, response.data.hisTimetable[1], "ALL_TI_YMD", "period", "PERIO", "subject", "ITRT_CNTNT");
     } else {
-      const response_data = [];
+      if (temporarytimetable[startDate] && temporarytimetable[startDate][grade] && temporarytimetable[startDate][grade][classNumber]) {
+        const responseData = {
+          "RESULT_CODE": 200,
+          "RESULT_MSG": "Success",
+          "RESULT_DATA": temporarytimetable[startDate][grade][classNumber],
+        };
 
-      for (let i = Number(startDate); i <= 20240308; i++) {
-        if (temporarytimetable[i] && temporarytimetable[i][grade] && temporarytimetable[i][grade][classNumber]) {
-          const response = {
-            "RESULT_CODE": 200,
-            "RESULT_MSG": "Success",
-            "RESULT_DATA": temporarytimetable[i][grade][classNumber],
-          };
-
-          response_data.push(response);
-        }
-      }
-
-      if (response_data.length > 0) {
-        res.status(200).json(response_data);
+        res.status(200).json([responseData]);
       } else {
         notFoundResponse(res);
       }
