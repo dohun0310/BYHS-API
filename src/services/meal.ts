@@ -1,5 +1,6 @@
 import { Response } from "express";
 import axios from "axios";
+import cheerio from "cheerio";
 
 import { API_KEY, BASE_URL, OFFICE_CODE, SCHOOL_CODE } from "../config";
 import { formatResponse, errorResponse, notFoundResponse } from "../utils/response";
@@ -24,7 +25,24 @@ export const fetchMeal = async (
     if (response.data.mealServiceDietInfo && response.data.mealServiceDietInfo[1] && response.data.mealServiceDietInfo[1].row) {
       formatResponse(res, response.data.mealServiceDietInfo[1], "MLSV_YMD", "dish", "DDISH_NM", "calorie", "CAL_INFO");
     } else {
-      notFoundResponse(res);
+      try {
+        const response = await axios.get("https://buyong-h.goeujb.kr/buyong-h/main.do");
+        const $ = cheerio.load(response.data);
+
+        const meal = $(".meal_list").text().replace(/\n/g, "<br />");
+
+        const crawling = {
+          row: [{
+            MLSV_YMD: startDate,
+            DDISH_NM: meal,
+            CAL_INFO: "000.00kcal"
+          }]
+        };
+
+        formatResponse(res, crawling, "MLSV_YMD", "dish", "DDISH_NM", "calorie", "CAL_INFO");
+      } catch (error) {
+        notFoundResponse(res);
+      }
     }
   } catch (error) {
     errorResponse(res, error);
