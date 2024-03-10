@@ -12,7 +12,7 @@ export const getMonthRange = (): { monthstart: string, monthend: string } => {
 };
 
 export const getWeekRange = (): { weekstart: string, weekend: string } => {
-  const today = new Date(2024, 2, 11);
+  const today = new Date();
   const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)));
   const lastDayOfWeek = new Date(firstDayOfWeek);
   lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
