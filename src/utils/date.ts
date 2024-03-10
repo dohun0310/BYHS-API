@@ -19,4 +19,4 @@ export const getWeekRange = (): { weekstart: string, weekend: string } => {
   return { weekstart: formatDate(firstDayOfWeek), weekend: formatDate(lastDayOfWeek) };
 };
 
-export const dateFormatter = new Intl.DateTimeFormat("ko-KR", { year: 'numeric', month: "long", day: "numeric", weekday: "long" });
+export const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "long" });
