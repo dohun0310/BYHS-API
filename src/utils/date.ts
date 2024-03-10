@@ -8,16 +8,14 @@ export const getMonthRange = (): { monthstart: string, monthend: string } => {
   const date = new Date();
   const startDay = new Date(date.getFullYear(), date.getMonth(), 1);
   const endDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
   return { monthstart: formatDate(startDay), monthend: formatDate(endDay) };
 };
 
 export const getWeekRange = (): { weekstart: string, weekend: string } => {
-  const today = new Date();
+  const today = new Date(2024, 2, 11);
   const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)));
   const lastDayOfWeek = new Date(firstDayOfWeek);
-  lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 4);
-
+  lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
   return { weekstart: formatDate(firstDayOfWeek), weekend: formatDate(lastDayOfWeek) };
 };
 
