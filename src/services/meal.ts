@@ -29,7 +29,7 @@ export const fetchMeal = async (
         const response = await axios.get("https://buyong-h.goeujb.kr/buyong-h/main.do");
         const $ = cheerio.load(response.data);
 
-        const meal = $(".meal_list").text().replace(/\n/g, "<br />");
+        const meal = $(".meal_list").text();
 
         const crawling = {
           row: [{
