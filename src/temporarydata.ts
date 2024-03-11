@@ -123,7 +123,7 @@ export const temporarytimetable: { [key: string]: { [key: string]: { [key: strin
       "2": {
         date: "3월 11일 월요일",
         period: ["1", "2", "3", "4", "5", "6"],
-        subject: ["F/인간", "X/미적", "확통", "E/생윤", "H/생Ⅱ", "스포"]
+        subject: ["F/인간", "X/미적", "U/화작", "E/생윤", "H/생Ⅱ", "스포"]
       },
       "3": {
         date: "3월 11일 월요일",
@@ -291,7 +291,7 @@ export const temporarytimetable: { [key: string]: { [key: string]: { [key: strin
       "2": {
         date: "3월 12일 화요일",
         period: ["1", "2", "3", "4", "5", "6", "7"],
-        subject: ["G/수탐", "U/화작", "E/생윤", "영독", "미적", "H/생Ⅱ", "확통"]
+        subject: ["G/수탐", "X/미적", "E/생윤", "진로", "U/화작", "H/생Ⅱ", "확통"]
       },
       "3": {
         date: "3월 12일 화요일",
@@ -459,7 +459,7 @@ export const temporarytimetable: { [key: string]: { [key: string]: { [key: strin
       "2": {
         date: "3월 13일 수요일",
         period: ["1", "2", "3", "4", "5", "6", "7"],
-        subject: ["시민", "G/수탐", "진로", "F/인간", "스포", "D/사문", "창A"]
+        subject: ["확통", "G/수탐", "영독", "F/인간", "스포", "D/사문", "창A"]
       },
       "3": {
         date: "3월 13일 수요일",
@@ -795,7 +795,7 @@ export const temporarytimetable: { [key: string]: { [key: string]: { [key: strin
       "2": {
         date: "3월 15일 금요일",
         period: ["1", "2", "3", "4", "5"],
-        subject: ["확통", "D/사문", "영독", "화작", "G/수탐"]
+        subject: ["확통", "D/사문", "영독", "시민", "G/수탐"]
       },
       "3": {
         date: "3월 15일 금요일",
