@@ -29,16 +29,17 @@ export const fetchMeal = async (
         const response = await axios.get("https://buyong-h.goeujb.kr/buyong-h/main.do");
         const $ = cheerio.load(response.data);
 
-        const meal = $(".meal_list").text();
+        const data = $(".meal_list").text().split("\n");
+        const meal = data.slice(1, data.length - 2).join("\n");
+        const calorie = data[data.length - 1].split("/")[0] + " kcal";
 
         const crawling = {
           row: [{
             MLSV_YMD: startDate,
             DDISH_NM: meal,
-            CAL_INFO: "000.00kcal"
+            CAL_INFO: calorie
           }]
         };
-
         formatResponse(res, crawling, "MLSV_YMD", "dish", "DDISH_NM", "calorie", "CAL_INFO");
       } catch (error) {
         notFoundResponse(res);
