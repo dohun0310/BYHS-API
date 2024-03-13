@@ -7,9 +7,17 @@ export const formatDate = (date: Date = new Date()): string => {
 export const getToday = (): string => formatDate();
 
 export const getMonthRange = (): { monthstart: string, monthend: string } => {
-  const date = new Date();
-  const startDay = new Date(Date.UTC(date.getFullYear(), date.getMonth(), 1));
-  const endDay = new Date(Date.UTC(date.getFullYear(), date.getMonth() + 1, 0));
+  const startDay = new Date();
+  const endOfMonth = new Date(Date.UTC(startDay.getFullYear(), startDay.getMonth() + 1, 0));
+  const diffDays = (endOfMonth.getDate() - startDay.getDate());
+  let endDay;
+
+  if(diffDays < 7) {
+    endDay = new Date(Date.UTC(startDay.getFullYear(), startDay.getMonth() + 2, 0));
+  } else {
+    endDay = endOfMonth;
+  }
+
   return { monthstart: formatDate(startDay), monthend: formatDate(endDay) };
 };
 
