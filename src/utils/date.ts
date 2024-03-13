@@ -23,9 +23,16 @@ export const getMonthRange = (): { monthstart: string, monthend: string } => {
 
 export const getWeekRange = (): { weekstart: string, weekend: string } => {
   const today = new Date();
-  const firstDayOfWeek = new Date(today.getTime() - (today.getDay() * 24 * 60 * 60 * 1000) + ((today.getDay() === 0 ? -6 : 1) * 24 * 60 * 60 * 1000));
-  const lastDayOfWeek = new Date(firstDayOfWeek.getTime() + (6 * 24 * 60 * 60 * 1000));
-  return { weekstart: formatDate(firstDayOfWeek), weekend: formatDate(lastDayOfWeek) };
+  const dayOfWeek = today.getDay();
+  let firstDayOfWeek = new Date(today.getTime() - (dayOfWeek * 24 * 60 * 60 * 1000));
+  firstDayOfWeek = dayOfWeek === 0 ? new Date(firstDayOfWeek.getTime() + (-6 * 24 * 60 * 60 * 1000)) : firstDayOfWeek;
+  let lastDayOfWeek = new Date(firstDayOfWeek.getTime() + (6 * 24 * 60 * 60 * 1000));
+
+  if (dayOfWeek === 4) {
+    lastDayOfWeek = new Date(firstDayOfWeek.getTime() + (13 * 24 * 60 * 60 * 1000));
+  }
+
+  return { weekstart: formatDate(today), weekend: formatDate(lastDayOfWeek) };
 };
 
 export const dateFormatter = new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "long" });
