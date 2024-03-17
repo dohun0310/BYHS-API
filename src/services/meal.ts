@@ -33,14 +33,19 @@ export const fetchMeal = async (
         const meal = data.slice(1, data.length - 2).join("\n");
         const calorie = data[data.length - 1].split("/")[0] + " kcal";
 
-        const crawling = {
-          row: [{
-            MLSV_YMD: startDate,
-            DDISH_NM: meal,
-            CAL_INFO: calorie
-          }]
-        };
-        formatResponse(res, crawling, "MLSV_YMD", "dish", "DDISH_NM", "calorie", "CAL_INFO");
+        if (meal.length != 0) {
+          const crawling = {
+            row: [{
+              MLSV_YMD: startDate,
+              DDISH_NM: meal,
+              CAL_INFO: calorie
+            }]
+          };
+  
+          formatResponse(res, crawling, "MLSV_YMD", "dish", "DDISH_NM", "calorie", "CAL_INFO");
+        } else {
+          notFoundResponse(res);
+        }
       } catch (error) {
         notFoundResponse(res);
       }
