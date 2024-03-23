@@ -28,7 +28,7 @@ export const getWeekRange = (): { weekstart: string, weekend: string } => {
   firstDayOfWeek = dayOfWeek === 0 ? new Date(firstDayOfWeek.getTime() + (-6 * 24 * 60 * 60 * 1000)) : firstDayOfWeek;
   let lastDayOfWeek = new Date(firstDayOfWeek.getTime() + (6 * 24 * 60 * 60 * 1000));
 
-  if (dayOfWeek === 4) {
+  if (dayOfWeek >= 4) {
     lastDayOfWeek = new Date(firstDayOfWeek.getTime() + (13 * 24 * 60 * 60 * 1000));
   }
 
