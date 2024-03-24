@@ -30,7 +30,7 @@ export const fetchMeal = async (
         const $ = cheerio.load(response.data);
 
         const data = $(".meal_list").text().split("\n");
-        const meal = data.slice(1, data.length - 2).join("\n");
+        const meal = data.slice(1, data.length - 2).join("<br/>");
         const calorie = data[data.length - 1].split("/")[0] + " kcal";
 
         if (meal.length != 0) {
