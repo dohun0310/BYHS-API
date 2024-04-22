@@ -8,9 +8,9 @@ pipeline {
     GIT_COMMIT_MESSAGE = sh(returnStdout: true, script: "git log -n 1 --format=%s ${GIT_COMMIT}").trim()
     GIT_COMMIT_SHORT = sh(returnStdout: true, script: "git rev-parse --short ${GIT_COMMIT}").trim()
 
-    BUILD_READY = "${JOB_NAME}에서 새로운 커밋 감지. ${GIT_BRANCH} 브랜치의 ${GIT_COMMIT_MESSAGE}(${GIT_COMMIT_SHORT}) 커밋을 빌드를 준비중입니다."
-    BUILD_START = "${GIT_BRANCH} 브랜치의 ${GIT_COMMIT_MESSAGE}(${GIT_COMMIT_SHORT}) 커밋을 빌드를 시작합니다."
-    BUILD_PUSH = "${GIT_BRANCH} 브랜치의 ${GIT_COMMIT_MESSAGE}(${GIT_COMMIT_SHORT}) 커밋을 빌드를 푸시합니다."
+    BUILD_READY = "${JOB_NAME}에서 새로운 커밋 감지. ${GIT_BRANCH} 브랜치의 ${GIT_COMMIT_MESSAGE}(${GIT_COMMIT_SHORT}) 커밋에 대한 빌드를 준비중입니다."
+    BUILD_START = "${GIT_BRANCH} 브랜치의 ${GIT_COMMIT_MESSAGE}(${GIT_COMMIT_SHORT}) 커밋에 대한 빌드를 시작합니다."
+    BUILD_PUSH = "${GIT_BRANCH} 브랜치의 ${GIT_COMMIT_MESSAGE}(${GIT_COMMIT_SHORT}) 커밋에 대한 빌드를 푸시합니다."
 
     BUILD_SUCCESS = "${JOB_NAME} 빌드를 정상적으로 완료하였습니다."
     BUILD_FAILURE = "${JOB_NAME} 빌드를 실패하였습니다."
