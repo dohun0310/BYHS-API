@@ -12,8 +12,8 @@ pipeline {
     BUILD_START = "${GIT_BRANCH} 브랜치의 ${GIT_COMMIT_MESSAGE}(${GIT_COMMIT_SHORT}) 커밋에 대한 빌드를 시작합니다."
     BUILD_PUSH = "${GIT_BRANCH} 브랜치의 ${GIT_COMMIT_MESSAGE}(${GIT_COMMIT_SHORT}) 커밋에 대한 빌드를 푸시합니다."
 
-    BUILD_SUCCESS = "${JOB_NAME} 빌드를 정상적으로 완료하였습니다."
-    BUILD_FAILURE = "${JOB_NAME} 빌드를 실패하였습니다."
+    BUILD_SUCCESS = "${JOB_NAME}의 새로운 빌드를 정상적으로 완료하였습니다."
+    BUILD_FAILURE = "${JOB_NAME}의 새로운 빌드를 실패하였습니다."
   }
 
   stages {
