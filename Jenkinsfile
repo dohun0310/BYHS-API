@@ -22,7 +22,7 @@ pipeline {
           DOCKER_IMAGE_STORAGE = "dohun0310"
           DOCKER_IMAGE_TAG = "latest"
 
-          sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_BOT_ID}/sendMessage' --form text='${BUILD_READY}' --form chat_id='${TELEGRAM_CHAT_ID}'"
+          sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_READY}' --form chat_id='${TELEGRAM_ID}'"
         }
       }
     }
@@ -32,7 +32,7 @@ pipeline {
         script {
           docker.build("${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}")
 
-          sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_BOT_ID}/sendMessage' --form text='${BUILD_START}' --form chat_id='${TELEGRAM_CHAT_ID}'"
+          sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_START}' --form chat_id='${TELEGRAM_ID}'"
         }
       }
     }
@@ -43,7 +43,7 @@ pipeline {
           docker.withRegistry("https://index.docker.io/v1/", DOCKERHUB_CREDENTIAL) {
             docker.image("${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}").push("${DOCKER_IMAGE_TAG}")
 
-            sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_BOT_ID}/sendMessage' --form text='${BUILD_PUSH}' --form chat_id='${TELEGRAM_CHAT_ID}'"
+            sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_PUSH}' --form chat_id='${TELEGRAM_ID}'"
           }
         }
       }
@@ -53,13 +53,13 @@ pipeline {
   post {
     success {
       script{
-        sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_BOT_ID}/sendMessage' --form text='${BUILD_SUCCESS}' --form chat_id='${TELEGRAM_CHAT_ID}'"
+        sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_SUCCESS}' --form chat_id='${TELEGRAM_ID}'"
       }
     }
 
     failure {
       script{
-        sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_BOT_ID}/sendMessage' --form text='${BUILD_FAILURE}' --form chat_id='${TELEGRAM_CHAT_ID}'"
+        sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_FAILURE}' --form chat_id='${TELEGRAM_ID}'"
       }
     }
   }
