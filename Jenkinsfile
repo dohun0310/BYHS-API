@@ -31,6 +31,9 @@ pipeline {
           VERSION = new Date().format("yyyy-MM-dd")
 
           sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_READY}' --form chat_id='${TELEGRAM_ID}'"
+
+          sh "docker buildx rm mybuilder"
+          sh "docker buildx create --name mybuilder --driver docker-container --use"
         }
       }
     }
