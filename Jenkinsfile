@@ -55,7 +55,7 @@ pipeline {
             docker push ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${VERSION}
             """
 
-            sh "rm -f /tmp/${DOCKER_IMAGE_NAME}.tar"
+            sh "rm -f /var/tmp/${DOCKER_IMAGE_NAME}.tar"
 
             sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_PUSH}' --form chat_id='${TELEGRAM_ID}'"
           }
