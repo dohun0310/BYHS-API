@@ -16,6 +16,10 @@ pipeline {
     BUILD_FAILURE = "${JOB_NAME}의 새로운 빌드를 실패하였습니다."
   }
 
+  triggers {
+    pollSCM('* * * * *')
+  }
+
   stages {
     stage("Set") {
       steps {
@@ -24,6 +28,7 @@ pipeline {
           DOCKER_IMAGE_NAME = "byhs-api"
           DOCKER_IMAGE_STORAGE = "dohun0310"
           DOCKER_IMAGE_TAG = "latest"
+          VERSION = new Date().format("yyyy-MM-dd")
 
           sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_READY}' --form chat_id='${TELEGRAM_ID}'"
         }
@@ -33,7 +38,7 @@ pipeline {
     stage("Build") {
       steps {
         script {
-          docker.build("${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}")
+          sh "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} -t ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${VERSION} --output type=oci,dest=/tmp/${DOCKER_IMAGE_NAME}.tar ."
 
           sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_START}' --form chat_id='${TELEGRAM_ID}'"
         }
@@ -44,7 +49,13 @@ pipeline {
       steps {
         script {
           docker.withRegistry("https://index.docker.io/v1/", DOCKERHUB_CREDENTIAL) {
-            docker.image("${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}").push("${DOCKER_IMAGE_TAG}")
+            sh """
+            docker load -i /tmp/${DOCKER_IMAGE_NAME}.tar
+            docker push ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+            docker push ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${VERSION}
+            """
+
+            sh "rm -f /tmp/${DOCKER_IMAGE_NAME}.tar"
 
             sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_PUSH}' --form chat_id='${TELEGRAM_ID}'"
           }
