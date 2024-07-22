@@ -38,7 +38,7 @@ pipeline {
     stage("Build") {
       steps {
         script {
-          sh "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} -t ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${VERSION} --output type=oci,dest=/tmp/${DOCKER_IMAGE_NAME}.tar ."
+          sh "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} -t ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${VERSION} --output type=oci,dest=~/cache/tmp/${DOCKER_IMAGE_NAME}.tar ."
 
           sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_START}' --form chat_id='${TELEGRAM_ID}'"
         }
@@ -50,7 +50,7 @@ pipeline {
         script {
           docker.withRegistry("https://index.docker.io/v1/", DOCKERHUB_CREDENTIAL) {
             sh """
-            docker load -i /tmp/${DOCKER_IMAGE_NAME}.tar
+            docker load -i ~/cache/tmp/${DOCKER_IMAGE_NAME}.tar
             docker push ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
             docker push ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${VERSION}
             """
