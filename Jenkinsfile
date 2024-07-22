@@ -50,12 +50,12 @@ pipeline {
         script {
           docker.withRegistry("https://index.docker.io/v1/", DOCKERHUB_CREDENTIAL) {
             sh """
-            docker load -i /var/tmp/${DOCKER_IMAGE_NAME}.tar
+            docker load -i /${DOCKER_IMAGE_NAME}.tar
             docker push ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
             docker push ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${VERSION}
             """
 
-            sh "rm -f /var/tmp/${DOCKER_IMAGE_NAME}.tar"
+            sh "rm -f /${DOCKER_IMAGE_NAME}.tar"
 
             sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_PUSH}' --form chat_id='${TELEGRAM_ID}'"
           }
