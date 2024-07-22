@@ -31,6 +31,8 @@ pipeline {
           VERSION = new Date().format("yyyy-MM-dd")
 
           sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_READY}' --form chat_id='${TELEGRAM_ID}'"
+
+          sh "docker run --privileged --rm tonistiigi/binfmt --install all"
         }
       }
     }
@@ -41,6 +43,7 @@ pipeline {
           docker.withRegistry("https://index.docker.io/v1/", DOCKERHUB_CREDENTIAL) {
             sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_START}' --form chat_id='${TELEGRAM_ID}'"
 
+            sh "docker buildx ls | grep mybuilder && docker buildx rm mybuilder || true"
             sh "docker buildx create --name mybuilder --driver docker-container"
             sh "docker buildx inspect mybuilder --bootstrap"
             sh "docker buildx use mybuilder"
