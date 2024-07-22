@@ -33,6 +33,7 @@ pipeline {
           sh "curl --location --request POST 'https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage' --form text='${BUILD_READY}' --form chat_id='${TELEGRAM_ID}'"
 
           // sh "docker buildx create --name mybuilder --driver docker-container"
+          sh "docker run --privileged --rm tonistiigi/binfmt --install all"
           sh "docker buildx inspect mybuilder --bootstrap"
           sh "docker buildx use mybuilder"
         }
