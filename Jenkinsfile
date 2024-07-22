@@ -50,7 +50,7 @@ pipeline {
         script {
           docker.withRegistry("https://index.docker.io/v1/", DOCKERHUB_CREDENTIAL) {
             sh """
-            docker load -i ~/cache/tmp/${DOCKER_IMAGE_NAME}.tar
+            docker load -i ~/caches/tmp/${DOCKER_IMAGE_NAME}.tar
             docker push ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
             docker push ${DOCKER_IMAGE_STORAGE}/${DOCKER_IMAGE_NAME}:${VERSION}
             """
