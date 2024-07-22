@@ -35,7 +35,7 @@ pipeline {
       }
     }
 
-    stage("Build and Push") {
+  stage("Build and Push") {
       steps {
         script {
           docker.withRegistry("https://index.docker.io/v1/", DOCKERHUB_CREDENTIAL) {
